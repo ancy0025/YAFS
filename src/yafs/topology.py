@@ -11,7 +11,7 @@ class Topology:
     def __init__(self, logger=None):
         super(Topology, self).__init__()
         self.G = nx.Graph()
-        if self.G is None:  # Debug check to catch NetworkX failure
+        if self.G is None:
             raise ValueError("NetworkX graph initialization failed!")
         self.__idNode = 0
         self.nodeAttributes = {}
@@ -110,9 +110,12 @@ class Topology:
     def size(self):
         return len(self.G.nodes)
 
-    def add_node(self, id, **attr):
+    def add_node(self, id, attr_dict=None, **attr):
         self.__idNode += 1
-        self.G.add_node(self.__idNode, **attr)
+        if attr_dict is not None:
+            self.G.add_node(self.__idNode, **attr_dict)
+        else:
+            self.G.add_node(self.__idNode, **attr)
         return self.__idNode
 
     def add_edge(self, src, dst, **attr):
